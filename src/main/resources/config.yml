@@ -1,0 +1,27 @@
+# General Settings
+
+check-for-updates: true # Check for new plugin updates
+
+# Use mini messages
+# Allows for clickable links, actions and more.
+# https://www.spigotmc.org/threads/minimessage-rich-text-messages-made-easy.433454/
+
+use-mini-message: false
+
+# Path Configuration Settings
+
+# This allows you to set a time period before the material is returned to normal
+# You can set to -1 to disable this feature and it will never return
+
+path-timer: -1
+
+# Material Types
+#
+# Format = Material Type To Change:
+#           Types to change to : Percentage chance of each type
+#
+
+paths:
+  GRASS: 
+    DIRT: 50           # If you want just one block type then put the type with 100 chance
+    COARSE_DIRT: 50
