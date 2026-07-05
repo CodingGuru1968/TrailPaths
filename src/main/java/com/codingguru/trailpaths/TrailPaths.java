@@ -2,7 +2,7 @@ package com.codingguru.trailpaths;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.codingguru.trailpaths.commands.MainCommand;
+import com.codingguru.trailpaths.commands.TrailPathsCmd;
 import com.codingguru.trailpaths.listeners.PlayerMove;
 import com.codingguru.trailpaths.listeners.PlayerQuit;
 import com.codingguru.trailpaths.managers.SettingsManager;
@@ -30,11 +30,13 @@ public class TrailPaths extends JavaPlugin {
 		settingsManager = new SettingsManager();
 		settingsManager.setup(this);
 		
-		if (getConfig().getBoolean("use-mini-message")) {
+		if (getConfig().getBoolean("use-mini-message", false)) {
 			this.adventureAPI = BukkitAudiences.create(this);
 		}
 
-		getCommand("trails").setExecutor(new MainCommand());
+		getCommand("trails").setExecutor(new TrailPathsCmd());
+		getCommand("trailpaths").setExecutor(new TrailPathsCmd());
+		getCommand("paths").setExecutor(new TrailPathsCmd());
 
 		getServer().getPluginManager().registerEvents(new PlayerQuit(), this);
 		getServer().getPluginManager().registerEvents(new PlayerMove(), this);

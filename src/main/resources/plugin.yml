@@ -1,9 +1,13 @@
 name: TrailPaths
-version: 1.8.2
+version: 1.9
 api-version: 1.13
 main: com.codingguru.trailpaths.TrailPaths
 authors: [CodingGuru]
 folia-supported: true
 commands:
     trails:
+     description: All the commands for this plugin.
+    trailpaths:
+     description: All the commands for this plugin.
+    paths:
      description: All the commands for this plugin.
