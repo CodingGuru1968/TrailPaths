@@ -1,5 +1,8 @@
 package com.codingguru.trailpaths;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.codingguru.trailpaths.commands.TrailPathsCmd;
@@ -8,6 +11,7 @@ import com.codingguru.trailpaths.listeners.PlayerQuit;
 import com.codingguru.trailpaths.managers.SettingsManager;
 import com.codingguru.trailpaths.utils.ConsoleUtil;
 import com.codingguru.trailpaths.utils.ServerTypeUtil;
+import com.tchristofferson.configupdater.ConfigUpdater;
 
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 
@@ -26,6 +30,14 @@ public class TrailPaths extends JavaPlugin {
 		ConsoleUtil.sendPluginSetup();
 
 		saveDefaultConfig();
+		
+		try {
+			ConfigUpdater.update(this, "config.yml", new File(getDataFolder(), "config.yml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		reloadConfig();
 
 		settingsManager = new SettingsManager();
 		settingsManager.setup(this);
