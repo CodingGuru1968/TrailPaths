@@ -4,14 +4,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import com.codingguru.trailpaths.TrailPaths;
 import com.codingguru.trailpaths.commands.SubCmd;
 import com.codingguru.trailpaths.handlers.PathHandler;
-import com.codingguru.trailpaths.utils.MessagesUtil;
+import com.codingguru.trailpaths.util.LangDefaults;
+import com.codingguru.trailpaths.util.MessageBuilder;
 
 public class Toggle extends SubCmd {
 
-	public Toggle() {
-		super();
+	public Toggle(TrailPaths plugin) {
+		super(plugin);
 		addAlias("toggle");
 		addAlias("on");
 		addAlias("enabled");
@@ -23,7 +25,7 @@ public class Toggle extends SubCmd {
 
 	public void performCommand(CommandSender sender, String[] args) {
 		if (sender instanceof ConsoleCommandSender) {
-			MessagesUtil.sendMessage(sender, MessagesUtil.IN_GAME_ONLY.toString());
+			new MessageBuilder.Builder("in-game-only", LangDefaults.IN_GAME_ONLY).send(sender);
 			return;
 		}
 
@@ -57,8 +59,11 @@ public class Toggle extends SubCmd {
 			INSTANCE.disablePath(player.getUniqueId());
 		}
 
-		MessagesUtil.sendMessage(player,
-				isPathDisabled ? MessagesUtil.TOGGLE_PATH_ON.toString() : MessagesUtil.TOGGLE_PATH_OFF.toString());
+		if (isPathDisabled) {
+			new MessageBuilder.Builder("toggle-path-on", LangDefaults.TOGGLE_PATH_ON).send(player);
+		} else {
+			new MessageBuilder.Builder("toggle-path-off", LangDefaults.TOGGLE_PATH_OFF).send(player);
+		}
 	}
 
 	public boolean isValidArgumentLength(int length) {

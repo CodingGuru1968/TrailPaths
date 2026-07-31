@@ -4,26 +4,28 @@ import java.util.ArrayList;
 
 import org.bukkit.command.CommandSender;
 
+import com.codingguru.trailpaths.TrailPaths;
 import com.codingguru.trailpaths.commands.SubCmd;
-import com.codingguru.trailpaths.utils.MessagesUtil;
+import com.codingguru.trailpaths.util.LangDefaults;
+import com.codingguru.trailpaths.util.MessageBuilder;
 
 public class Help extends SubCmd {
 
 	private final ArrayList<SubCmd> subCommands;
 
-	public Help(ArrayList<SubCmd> subCommands) {
-		super();
+	public Help(TrailPaths plugin, ArrayList<SubCmd> subCommands) {
+		super(plugin);
 		addAlias("help");
 		addAlias("?");
 		this.subCommands = subCommands;
 	}
 
 	public void performCommand(CommandSender sender, String[] args) {
-		MessagesUtil.sendMessage(sender, MessagesUtil.HELP_TITLE.toString());
+		new MessageBuilder.Builder("help-title", LangDefaults.HELP_TITLE).send(sender);
 
 		for (SubCmd command : subCommands) {
-			MessagesUtil.sendMessage(sender, MessagesUtil.HELP_COMMAND.toString()
-					.replaceAll("%command%", command.getHelp()).replaceAll("%description%", command.getDescription()));
+			new MessageBuilder.Builder("help-entry", LangDefaults.HELP_ENTRY).set("%cmd%", command.getHelp())
+					.set("%desc%", command.getDescription()).send(sender);
 		}
 	}
 

@@ -3,25 +3,31 @@ package com.codingguru.trailpaths.scheduler;
 import org.bukkit.Bukkit;
 
 import com.codingguru.trailpaths.TrailPaths;
-import com.codingguru.trailpaths.utils.ServerTypeUtil;
+import com.codingguru.trailpaths.util.ServerTypeUtil;
 
 public abstract class Schedule implements Runnable {
 
-	private final boolean USING_FOLIA = TrailPaths.getInstance().getServerType() == ServerTypeUtil.FOLIA;
+	protected final TrailPaths plugin;
+	private final boolean USING_FOLIA;
 
+	public Schedule(TrailPaths plugin) {
+		this.plugin = plugin;
+		this.USING_FOLIA = plugin.getServerType() == ServerTypeUtil.FOLIA;
+	}
+	
 	public void runTask() {
 		if (USING_FOLIA) {
-			Bukkit.getGlobalRegionScheduler().execute(TrailPaths.getInstance(), this);
+			Bukkit.getGlobalRegionScheduler().execute(plugin, this);
 		} else {
-			Bukkit.getScheduler().runTask(TrailPaths.getInstance(), this);
+			Bukkit.getScheduler().runTask(plugin, this);
 		}
 	}
 
 	public void runTaskLater(long delay) {
 		if (USING_FOLIA) {
-			Bukkit.getGlobalRegionScheduler().runDelayed(TrailPaths.getInstance(), t -> this.run(), delay);
+			Bukkit.getGlobalRegionScheduler().runDelayed(plugin, t -> this.run(), delay);
 		} else {
-			Bukkit.getScheduler().runTaskLater(TrailPaths.getInstance(), this, delay);
+			Bukkit.getScheduler().runTaskLater(plugin, this, delay);
 		}
 	}
 	

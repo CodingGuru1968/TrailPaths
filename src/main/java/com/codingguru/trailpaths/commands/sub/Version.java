@@ -4,22 +4,22 @@ import org.bukkit.command.CommandSender;
 
 import com.codingguru.trailpaths.TrailPaths;
 import com.codingguru.trailpaths.commands.SubCmd;
-import com.codingguru.trailpaths.handlers.PathHandler;
 import com.codingguru.trailpaths.util.LangDefaults;
 import com.codingguru.trailpaths.util.MessageBuilder;
 
-public class Reload extends SubCmd {
+public class Version extends SubCmd {
 
-	public Reload(TrailPaths plugin) {
+	@SuppressWarnings("deprecation")
+	private final String version = plugin.getDescription().getVersion();
+
+	public Version(TrailPaths plugin) {
 		super(plugin);
-		addAlias("rl");
-		addAlias("reload");
+		addAlias("v");
+		addAlias("version");
 	}
 
 	public void performCommand(CommandSender sender, String[] args) {
-		plugin.reload();
-		PathHandler.getInstance().resetMaterials();
-		new MessageBuilder.Builder("reload", LangDefaults.RELOAD).send(sender);
+		new MessageBuilder.Builder("version", LangDefaults.VERSION).set("%version%", version).send(sender);
 	}
 
 	public boolean isValidArgumentLength(int length) {
@@ -27,15 +27,15 @@ public class Reload extends SubCmd {
 	}
 
 	public String getHelp() {
-		return "/trails reload";
+		return "/trails version";
 	}
 
 	public String getPermission() {
-		return "trails.reload";
+		return "trailpaths.version";
 	}
 
 	public String getDescription() {
-		return "Reload the configuration files.";
+		return "View the version of the plugin.";
 	}
 
 }

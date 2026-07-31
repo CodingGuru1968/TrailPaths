@@ -12,6 +12,12 @@ import com.codingguru.trailpaths.scheduler.ReplaceOldMaterialThread;
 
 public class PlayerMove implements Listener {
 
+	private final TrailPaths plugin;
+
+	public PlayerMove(TrailPaths plugin) {
+		this.plugin = plugin;
+	}
+
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
 		if (e.getFrom().getBlockX() == e.getTo().getBlockX() && e.getFrom().getBlockZ() == e.getTo().getBlockZ())
@@ -26,11 +32,11 @@ public class PlayerMove implements Listener {
 		if (PathHandler.getInstance().contains(steppedOnBlockType)) {
 			block.setType(PathHandler.getInstance().getChangedMaterial(steppedOnBlockType));
 
-			if (TrailPaths.getInstance().getConfig().getInt("path-timer") == -1)
+			if (plugin.getConfig().getInt("path-timer") == -1)
 				return;
 
-			ReplaceOldMaterialThread thread = new ReplaceOldMaterialThread(block.getLocation(), steppedOnBlockType);
-			thread.runTaskLater(TrailPaths.getInstance().getConfig().getInt("path-timer") * 20);
+			ReplaceOldMaterialThread thread = new ReplaceOldMaterialThread(plugin, block.getLocation(), steppedOnBlockType);
+			thread.runTaskLater(plugin.getConfig().getInt("path-timer") * 20);
 		}
 	}
 }

@@ -9,29 +9,30 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.codingguru.trailpaths.TrailPaths;
-import com.codingguru.trailpaths.utils.ConsoleUtil;
-import com.codingguru.trailpaths.utils.WeightedRandomUtil;
-import com.codingguru.trailpaths.utils.XMaterialUtil;
+import com.codingguru.trailpaths.util.ConsoleUtil;
+import com.codingguru.trailpaths.util.WeightedRandomUtil;
+import com.codingguru.trailpaths.util.XMaterialUtil;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public class PathHandler {
 
-	private static final PathHandler INSTANCE = new PathHandler();
-	private Map<Material, WeightedRandomUtil<Material>> pathMaterials;
-	private Set<UUID> disabledPaths;
-
 	private PathHandler() {
-		pathMaterials = Maps.newHashMap();
-		disabledPaths = Sets.newHashSet();
+		this.plugin = TrailPaths.getInstance();
+		this.pathMaterials = Maps.newHashMap();
+		this.disabledPaths = Sets.newHashSet();
 		resetMaterials();
 	}
+	
+	private final static PathHandler INSTANCE = new PathHandler();
+	private Map<Material, WeightedRandomUtil<Material>> pathMaterials;
+	private Set<UUID> disabledPaths;
+	private final TrailPaths plugin;
 
 	public void resetMaterials() {
 		pathMaterials.clear();
 
-		for (String materialName : TrailPaths.getInstance().getConfig().getConfigurationSection("paths")
-				.getKeys(false)) {
+		for (String materialName : plugin.getConfig().getConfigurationSection("paths").getKeys(false)) {
 
 			Optional<XMaterialUtil> materialToChange = XMaterialUtil.matchXMaterial(materialName);
 
@@ -42,8 +43,7 @@ public class PathHandler {
 
 			WeightedRandomUtil<Material> materialsToChangeTo = new WeightedRandomUtil<>();
 
-			ConfigurationSection section = TrailPaths.getInstance().getConfig()
-					.getConfigurationSection("paths." + materialName);
+			ConfigurationSection section = plugin.getConfig().getConfigurationSection("paths." + materialName);
 
 			if (section == null) {
 				ConsoleUtil.warning("[TrailPaths] Using old config format. Please update to new format.");
@@ -59,8 +59,7 @@ public class PathHandler {
 					continue;
 				}
 
-				int percentage = TrailPaths.getInstance().getConfig()
-						.getInt("paths." + materialName + "." + changeToName);
+				int percentage = plugin.getConfig().getInt("paths." + materialName + "." + changeToName);
 
 				materialsToChangeTo.addEntry(changeMaterialToType.get().parseMaterial(), percentage);
 			}

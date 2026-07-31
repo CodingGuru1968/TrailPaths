@@ -8,20 +8,24 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.codingguru.trailpaths.TrailPaths;
 import com.codingguru.trailpaths.commands.sub.Help;
 import com.codingguru.trailpaths.commands.sub.Reload;
 import com.codingguru.trailpaths.commands.sub.Toggle;
-import com.codingguru.trailpaths.utils.MessagesUtil;
+import com.codingguru.trailpaths.commands.sub.Version;
+import com.codingguru.trailpaths.util.LangDefaults;
+import com.codingguru.trailpaths.util.MessageBuilder;
 
 public class TrailPathsCmd implements CommandExecutor {
 
 	private final ArrayList<SubCmd> subCommands;
 
-	public TrailPathsCmd() {
+	public TrailPathsCmd(TrailPaths plugin) {
 		this.subCommands = new ArrayList<>();
-		this.subCommands.add(new Reload());
-		this.subCommands.add(new Toggle());
-		this.subCommands.add(new Help(subCommands));
+		this.subCommands.add(new Reload(plugin));
+		this.subCommands.add(new Toggle(plugin));
+		this.subCommands.add(new Version(plugin));
+		this.subCommands.add(new Help(plugin, subCommands));
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class TrailPathsCmd implements CommandExecutor {
 					Player player = (Player) commandSender;
 
 					if (!subCommand.hasPermission(player)) {
-						MessagesUtil.sendMessage(player, MessagesUtil.NO_PERMISSION.toString());
+						new MessageBuilder.Builder("no-permission", LangDefaults.NO_PERMISSION).send(player);
 						return false;
 					}
 
@@ -59,10 +63,20 @@ public class TrailPathsCmd implements CommandExecutor {
 		}
 
 		Optional<SubCmd> subCommand = subCommands.stream()
-				.filter(paramSubcommand -> paramSubcommand.getIdentifiers().contains("toggle")).findAny();
+				.filter(paramSubcommand -> paramSubcommand.getIdentifiers().contains("help")).findAny();
 
 		if (subCommand.isPresent()) {
-			subCommand.get().performCommand(commandSender, args);
+			SubCmd helpCommand = subCommand.get();
+
+			if (commandSender instanceof Player) {
+				Player player = (Player) commandSender;
+				if (!helpCommand.hasPermission(player)) {
+					new MessageBuilder.Builder("no-permission", LangDefaults.NO_PERMISSION).send(player);
+					return false;
+				}
+			}
+
+			helpCommand.performCommand(commandSender, args);
 		}
 
 		return false;

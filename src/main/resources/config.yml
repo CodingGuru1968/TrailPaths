@@ -1,18 +1,40 @@
-# General Settings
+####################################################################################
+# +------------------------------------------------------------------------------+ #
+# |                                                                              | #
+# | ,--------.               ,--.,--.,------.           ,--.  ,--.               | #
+# | '--.  .--',--.--. ,--,--.`--'|  ||  .--. ' ,--,--.,-'  '-.|  ,---.  ,---.    | #
+# |    |  |   |  .--'' ,-.  |,--.|  ||  '--' |' ,-.  |'-.  .-'|  .-.  |(  .-'    | #
+# |    |  |   |  |   \ '-'  ||  ||  ||  | --' \ '-'  |  |  |  |  | |  |.-'  `)   | #
+# |    `--'   `--'    `--`--'`--'`--'`--'      `--`--'  `--'  `--' `--'`----'    | #
+# |                                                                              | #
+# |                                                                              | #
+# | WIKI:    https://codingguru1968.gitbook.io/trailpaths-wiki                   | #
+# | DISCORD: https://discord.gg/Rqmngywv57                                       | #
+# |                                                                              | #
+# +------------------------------------------------------------------------------+ #
+####################################################################################
 
-check-for-updates: true # Check for new plugin updates
+# +----------------------------------------------------------------------------------------------+ #
+# | GENERAL SETTINGS                                                                             | #
+# +----------------------------------------------------------------------------------------------+ #
 
-# Use mini messages
-# Allows for clickable links, actions and more.
+# Check for new plugin updates
+check-for-updates: true 
+
+# Set the language file to use from the 'lang' folder
+# English = en, French = fr, Spanish = es, German = de, Russian = ru
+language: "en"
+
+# Use mini messages (Allows for clickable links, actions and more)
 # https://www.spigotmc.org/threads/minimessage-rich-text-messages-made-easy.433454/
-
 use-mini-message: false
 
-# Path Configuration Settings
+# +----------------------------------------------------------------------------------------------+ #
+# | PATH CONFIGURATION & TIMER                                                                   | #
+# +----------------------------------------------------------------------------------------------+ #
 
 # This allows you to set a time period before the material is returned to normal
 # You can set to -1 to disable this feature and it will never return
-
 path-timer: -1
 
 # Material Types
@@ -20,7 +42,6 @@ path-timer: -1
 # Format = Material Type To Change:
 #           Types to change to : Percentage chance of each type
 #
-
 paths:
   GRASS: 
     DIRT: 50           # If you want just one block type then put the type with 100 chance
